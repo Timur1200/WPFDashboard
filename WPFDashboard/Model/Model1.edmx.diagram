@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9f9e41af5efb46b7a840fa889d9fc3c0" Name="Diagram1">
+        <EntityTypeShape EntityType="crbModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="crbModel.Персонал" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="crbModel.ЭВМ" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+        <AssociationConnector Association="crbModel.FK_Персонал_ЭВМ" />
+        <EntityTypeShape EntityType="crbModel.Заявки" Width="1.5" PointX="5" PointY="4.375" />
+        <AssociationConnector Association="crbModel.FK_Заявки_Персонал" />
+        <AssociationConnector Association="crbModel.FK_Заявки_ЭВМ" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
