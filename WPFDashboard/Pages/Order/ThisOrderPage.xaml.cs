@@ -48,6 +48,8 @@ namespace WPFDashboard.Pages.Order
             if (_order.ЭВМ.Списан.Value)
             {
                 _order.ЭВМ.Причина = _order.Ремонт;
+                
+                _order.Результат = "Списан";
                 crbEntities.GetContext().SaveChanges();
                 // акт списания
                 WordService word = new WordService("Word/актСписания.docx");
@@ -65,6 +67,7 @@ namespace WPFDashboard.Pages.Order
             else
             {
                 // акт выполненых работ
+                _order.Результат = "Отремонтирован";
                 WordService word = new WordService("Word/актРаботы.docx");
                 for (int i = 0; i != 2; i++)
                 {

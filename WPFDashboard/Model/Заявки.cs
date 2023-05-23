@@ -21,8 +21,9 @@ namespace WPFDashboard.Model
         public string Описание { get; set; }
         public Nullable<System.DateTime> ДатаРемонта { get; set; }
         public string Ремонт { get; set; }
+        public string Результат { get; set; }
     
-        public virtual Персонал Персонал { get; set; }
         public virtual ЭВМ ЭВМ { get; set; }
+        public virtual Персонал Персонал { get; set; }
     }
 }

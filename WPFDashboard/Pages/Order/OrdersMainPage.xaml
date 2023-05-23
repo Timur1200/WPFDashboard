@@ -16,28 +16,31 @@
         </Grid.RowDefinitions>
         <Grid>
             <StackPanel Orientation="Horizontal">
-                <!--<Button Click="AddClick" Content="Создать" />
-                <Button Click="EditClick" Content="Изменить" />
-                <Button Width="auto" Click="DelClick" Content="Уволить/Вернуть"  />-->
-
+                <StackPanel Margin="10">
+                    <DatePicker SelectedDateChanged="DatePickerStart_SelectedDateChanged" Name="DatePickerStart"></DatePicker>
+                    <DatePicker SelectedDateChanged="DatePickerStart_SelectedDateChanged" Name="DatePickerEnd"></DatePicker>
+                </StackPanel>
+                <StackPanel MinWidth="10">
+                    <TextBlock Text="" Name="TextBlockResult" />
+                    <TextBlock Text="" Name="TextBlockRepair" />
+                    <TextBlock Text="" Name="TextBlockSpisan" />
+                </StackPanel>
+               
+                <Button Content="Сбросить" Click="ResetClick" />
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
             <DataGrid AutoGenerateColumns="False" Name="DGrid" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Врач" Binding="{Binding Персонал.Фио}" />
+                    <DataGridTextColumn Width="82" Header="Дата отправки" Binding="{Binding Дата,StringFormat=d}" />
                     <DataGridTextColumn Header="Кабинет" Binding="{Binding Персонал.Кабинет}" />
-                    <DataGridTextColumn Header="ЭВМ" Binding="{Binding ЭВМ.Name}" />
-                    <DataGridTextColumn Header="Дата отправки" Binding="{Binding Дата}" />
+                    <DataGridTextColumn Width="100" Header="ЭВМ" Binding="{Binding ЭВМ.Name}" />
+                    <DataGridTextColumn Header="Результат" Binding="{Binding Результат}" />
+                    <DataGridTextColumn Width="82" Header="Дата ремонта" Binding="{Binding ДатаРемонта,StringFormat=d}" />
                    
                     <DataGridTextColumn Header="Статус" Binding="{Binding Status}" />
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Click="DescClick" Content="Описание" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -45,7 +48,13 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="DescClick" Content="Описание" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

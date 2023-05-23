@@ -38,9 +38,9 @@ namespace WPFDashboard.Model
         public Nullable<System.DateTime> ДатаНачала { get; set; }
         public string Причина { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Заявки> Заявки { get; set; }
         public virtual Кабинет Кабинет { get; set; }
         public virtual Поставщик Поставщик { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Заявки> Заявки { get; set; }
     }
 }

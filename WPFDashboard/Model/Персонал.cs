@@ -23,7 +23,7 @@ namespace WPFDashboard.Model
         public int Код { get; set; }
         public Nullable<int> КодКабинета { get; set; }
         public string Фио { get; set; }
-        public string ДатаРождения { get; set; }
+        public Nullable<System.DateTime> ДатаРождения { get; set; }
         public string Адрес { get; set; }
         public string Телефон { get; set; }
         public string Пароль { get; set; }

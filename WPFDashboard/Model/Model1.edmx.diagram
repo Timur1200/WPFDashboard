@@ -8,14 +8,14 @@
         <EntityTypeShape EntityType="crbModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="crbModel.Кабинет" Width="1.5" PointX="1" PointY="4.375" />
         <EntityTypeShape EntityType="crbModel.Поставщик" Width="1.5" PointX="3.25" PointY="11.75" />
-        <EntityTypeShape EntityType="crbModel.Заявки" Width="1.5" PointX="7.75" PointY="7.5" />
-        <EntityTypeShape EntityType="crbModel.Персонал" Width="1.5" PointX="3.25" PointY="8.125" />
-        <AssociationConnector Association="crbModel.FK_Заявки_Персонал" />
-        <AssociationConnector Association="crbModel.FK_Персонал_Кабинет" />
         <EntityTypeShape EntityType="crbModel.ЭВМ" Width="1.5" PointX="5.5" PointY="6.375" />
-        <AssociationConnector Association="crbModel.FK_Заявки_ЭВМ" />
         <AssociationConnector Association="crbModel.FK_ЭВМ_Кабинет" />
         <AssociationConnector Association="crbModel.FK_ЭВМ_Поставщик" />
+        <EntityTypeShape EntityType="crbModel.Заявки" Width="1.5" PointX="7.75" PointY="7.375" />
+        <AssociationConnector Association="crbModel.FK_Заявки_ЭВМ" />
+        <EntityTypeShape EntityType="crbModel.Персонал" Width="1.5" PointX="3.25" PointY="0.875" />
+        <AssociationConnector Association="crbModel.FK_Заявки_Персонал" />
+        <AssociationConnector Association="crbModel.FK_Персонал_Кабинет" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

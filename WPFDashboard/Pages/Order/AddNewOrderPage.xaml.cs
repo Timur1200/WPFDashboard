@@ -24,7 +24,7 @@ namespace WPFDashboard.Pages.Order
         public AddNewOrderPage()
         {
             InitializeComponent();
-            _list = crbEntities.GetContext().ЭВМ.Where(q => q.КодКабинета == Nav.pers.КодКабинета).ToList();
+            _list = crbEntities.GetContext().ЭВМ.Where(q => q.КодКабинета == Nav.pers.КодКабинета && q.Списан == false && q.Ремонт == false).ToList();
             
             evmComboBox.ItemsSource = _list;
             _order = new Заявки

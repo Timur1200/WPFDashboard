@@ -27,7 +27,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Телефон" Binding="{Binding Телефон}" />
                     <DataGridTextColumn Header="Фио" Binding="{Binding Фио}" />
-                    <DataGridTextColumn Header="ДатаРождения" Binding="{Binding ДатаРождения, StringFormat=d}" />
+                    <DataGridTextColumn Header="ДатаРождения" Binding="{Binding ДатаРождения, StringFormat=d, ConverterCulture=ru-ru}" />
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Адрес}" />
                     <DataGridTextColumn Header="Кабинет" Binding="{Binding Кабинет}" />
                     
