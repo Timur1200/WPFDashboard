@@ -24,9 +24,11 @@ namespace WPFDashboard.Pages.Computer
         public AddEditComputerPage(ЭВМ e)
         {
             InitializeComponent();
+            KabinetComboBox.ItemsSource = crbEntities.GetContext().Кабинет.ToList();
+            ProviderComboBox.ItemsSource = crbEntities.GetContext().Поставщик.ToList();
             if (e == null)
             {
-                _comp = new ЭВМ {Списан =false , Ремонт = false};
+                _comp = new ЭВМ {Списан =false , Ремонт = false,ДатаНачала = DateTime.Now};
             }
             else
             {

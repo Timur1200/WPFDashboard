@@ -5,14 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using WPFDashboard.Model;
+
 
 namespace WPFDashboard.Pages.Computer
 {
@@ -27,8 +22,11 @@ namespace WPFDashboard.Pages.Computer
         }
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
-            DGrid.ItemsSource = crbEntities.GetContext().ЭВМ.ToList();
+            _list = crbEntities.GetContext().ЭВМ.ToList();
+            DGrid.ItemsSource = _list;
+
         }
+        private List<ЭВМ> _list;
         private void AddClick(object sender, RoutedEventArgs e)
         {
             Nav.Go(new AddEditComputerPage(null));
@@ -44,6 +42,33 @@ namespace WPFDashboard.Pages.Computer
             Nav.Go(new AddEditComputerPage(DGrid.SelectedItem as ЭВМ));
         }
 
-        
+        private void AcrPriemaClick(object sender, RoutedEventArgs e)
+        {
+            if (DGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Нужно выбрать запись из таблицы!");
+                return;
+            }
+            ЭВМ evm = DGrid.SelectedItem as ЭВМ;
+            WordService word = new WordService("Word/актПриема.docx");
+            word.ReplaceWordStub("(код)", $"{evm.Код}");
+            word.ReplaceWordStub("(день)", $"{evm.ДатаНачала.Value.ToString("dd")}");
+            word.ReplaceWordStub("(месяц)", $"{evm.ДатаНачала.Value.ToString("MM")}");
+            word.ReplaceWordStub("(год)", $"{evm.ДатаНачала.Value.ToString("yyyy")}");
+            word.ReplaceWordStub("(эвм)", $"{evm.Имя} {evm.Модель} №{evm.Код}");
+            word.ToWord();
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (SearchTextBox.Text.Length == 0)
+            {
+                DGrid.ItemsSource = _list;
+                return;
+            }
+            string text = SearchTextBox.Text.ToLower();
+            DGrid.ItemsSource = _list.Where(q=>q.Код.ToString().Contains(text) || q.Имя.ToLower().Contains(text) 
+            || q.Модель.Contains(text));
+        }
     }
 }

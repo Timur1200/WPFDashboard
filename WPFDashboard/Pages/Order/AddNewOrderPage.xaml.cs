@@ -24,29 +24,38 @@ namespace WPFDashboard.Pages.Order
         public AddNewOrderPage()
         {
             InitializeComponent();
+            _list = crbEntities.GetContext().ЭВМ.Where(q => q.КодКабинета == Nav.pers.КодКабинета).ToList();
+            
+            evmComboBox.ItemsSource = _list;
             _order = new Заявки
             {
-                Персонал = Nav.pers,
-                ЭВМ  = Nav.pers.ЭВМ,
+                Персонал = Nav.pers,           
                 Дата = DateTime.Now,
-
             };
             DataContext= _order;
         }
         private Заявки _order;
+        private List<ЭВМ> _list;
         private void SaveClick(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(_order.Описание))
+            
+            
+            if (string.IsNullOrEmpty(_order.Описание) || evmComboBox.SelectedItem == null)
             {
                 MessageBox.Show("Заполните поле!");
                 return;
             }
             crbEntities.GetContext().Заявки.Add(_order);
-            var item = Nav.pers.ЭВМ;
+            var item = evmComboBox.SelectedItem as ЭВМ;
             item.Ремонт = true;
             crbEntities.GetContext().SaveChanges();
             MessageBox.Show("Заявка отправлена!");
             Nav.Back();
+        }
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

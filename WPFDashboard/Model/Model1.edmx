@@ -27,23 +27,39 @@
           <Property Name="ДатаРемонта" Type="datetime" />
           <Property Name="Ремонт" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Кабинет">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Персонал">
           <Key>
             <PropertyRef Name="Код" />
           </Key>
           <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="КодЭВМ" Type="int" />
+          <Property Name="КодКабинета" Type="int" />
           <Property Name="Фио" Type="nvarchar" MaxLength="50" />
           <Property Name="ДатаРождения" Type="nvarchar" MaxLength="50" />
           <Property Name="Адрес" Type="nvarchar" MaxLength="50" />
           <Property Name="Телефон" Type="nvarchar" MaxLength="50" />
           <Property Name="Пароль" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Поставщик">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Наименование" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="ЭВМ">
           <Key>
             <PropertyRef Name="Код" />
           </Key>
           <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="КодПоставщика" Type="int" />
+          <Property Name="КодКабинета" Type="int" />
           <Property Name="Имя" Type="nvarchar" MaxLength="50" />
           <Property Name="Модель" Type="nvarchar" MaxLength="50" />
           <Property Name="Процессор" Type="nvarchar" MaxLength="50" />
@@ -55,6 +71,9 @@
           <Property Name="Ремонт" Type="bit" />
           <Property Name="Списан" Type="bit" />
           <Property Name="ДатаСписания" Type="datetime" />
+          <Property Name="Гарантия" Type="datetime" />
+          <Property Name="ДатаНачала" Type="datetime" />
+          <Property Name="Причина" Type="nvarchar(max)" />
         </EntityType>
         <Association Name="FK_Заявки_Персонал">
           <End Role="Персонал" Type="Self.Персонал" Multiplicity="0..1" />
@@ -80,22 +99,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Персонал_ЭВМ">
-          <End Role="ЭВМ" Type="Self.ЭВМ" Multiplicity="0..1" />
+        <Association Name="FK_Персонал_Кабинет">
+          <End Role="Кабинет" Type="Self.Кабинет" Multiplicity="0..1" />
           <End Role="Персонал" Type="Self.Персонал" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ЭВМ">
+            <Principal Role="Кабинет">
               <PropertyRef Name="Код" />
             </Principal>
             <Dependent Role="Персонал">
-              <PropertyRef Name="КодЭВМ" />
+              <PropertyRef Name="КодКабинета" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ЭВМ_Кабинет">
+          <End Role="Кабинет" Type="Self.Кабинет" Multiplicity="0..1" />
+          <End Role="ЭВМ" Type="Self.ЭВМ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Кабинет">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="ЭВМ">
+              <PropertyRef Name="КодКабинета" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ЭВМ_Поставщик">
+          <End Role="Поставщик" Type="Self.Поставщик" Multiplicity="0..1" />
+          <End Role="ЭВМ" Type="Self.ЭВМ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Поставщик">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="ЭВМ">
+              <PropertyRef Name="КодПоставщика" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище crbModelContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Заявки" EntityType="Self.Заявки" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Кабинет" EntityType="Self.Кабинет" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Персонал" EntityType="Self.Персонал" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Поставщик" EntityType="Self.Поставщик" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ЭВМ" EntityType="Self.ЭВМ" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Заявки_Персонал" Association="Self.FK_Заявки_Персонал">
             <End Role="Персонал" EntitySet="Персонал" />
@@ -105,9 +150,17 @@
             <End Role="ЭВМ" EntitySet="ЭВМ" />
             <End Role="Заявки" EntitySet="Заявки" />
           </AssociationSet>
-          <AssociationSet Name="FK_Персонал_ЭВМ" Association="Self.FK_Персонал_ЭВМ">
-            <End Role="ЭВМ" EntitySet="ЭВМ" />
+          <AssociationSet Name="FK_Персонал_Кабинет" Association="Self.FK_Персонал_Кабинет">
+            <End Role="Кабинет" EntitySet="Кабинет" />
             <End Role="Персонал" EntitySet="Персонал" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ЭВМ_Кабинет" Association="Self.FK_ЭВМ_Кабинет">
+            <End Role="Кабинет" EntitySet="Кабинет" />
+            <End Role="ЭВМ" EntitySet="ЭВМ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ЭВМ_Поставщик" Association="Self.FK_ЭВМ_Поставщик">
+            <End Role="Поставщик" EntitySet="Поставщик" />
+            <End Role="ЭВМ" EntitySet="ЭВМ" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -124,69 +177,51 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="Персонал">
-          <Key>
-            <PropertyRef Name="Код" />
-          </Key>
-          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Фио" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ДатаРождения" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Телефон" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="КодЭВМ" Type="Int32" />
-          <NavigationProperty Name="ЭВМ" Relationship="crbModel.FK_Персонал_ЭВМ" FromRole="Персонал" ToRole="ЭВМ" />
-          <NavigationProperty Name="Заявки" Relationship="crbModel.FK_Заявки_Персонал" FromRole="Персонал" ToRole="Заявки" />
-        </EntityType>
-        <EntityType Name="ЭВМ">
-          <Key>
-            <PropertyRef Name="Код" />
-          </Key>
-          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Модель" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Процессор" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Монитор" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ОЗУ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ЖесткийДиск" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Графика" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="БлокПитания" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Ремонт" Type="Boolean" />
-          <Property Name="Списан" Type="Boolean" />
-          <Property Name="ДатаСписания" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Персонал" Relationship="crbModel.FK_Персонал_ЭВМ" FromRole="ЭВМ" ToRole="Персонал" />
-          <NavigationProperty Name="Заявки" Relationship="crbModel.FK_Заявки_ЭВМ" FromRole="ЭВМ" ToRole="Заявки" />
-        </EntityType>
         <EntityContainer Name="crbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="Персонал" EntityType="Self.Персонал" />
-          <EntitySet Name="ЭВМ" EntityType="Self.ЭВМ" />
-          <AssociationSet Name="FK_Персонал_ЭВМ" Association="crbModel.FK_Персонал_ЭВМ">
-            <End Role="ЭВМ" EntitySet="ЭВМ" />
-            <End Role="Персонал" EntitySet="Персонал" />
-          </AssociationSet>
+          <EntitySet Name="Кабинет" EntityType="crbModel.Кабинет" />
+          <EntitySet Name="Поставщик" EntityType="crbModel.Поставщик" />
           <EntitySet Name="Заявки" EntityType="crbModel.Заявки" />
+          <EntitySet Name="Персонал" EntityType="crbModel.Персонал" />
           <AssociationSet Name="FK_Заявки_Персонал" Association="crbModel.FK_Заявки_Персонал">
             <End Role="Персонал" EntitySet="Персонал" />
             <End Role="Заявки" EntitySet="Заявки" />
           </AssociationSet>
+          <AssociationSet Name="FK_Персонал_Кабинет" Association="crbModel.FK_Персонал_Кабинет">
+            <End Role="Кабинет" EntitySet="Кабинет" />
+            <End Role="Персонал" EntitySet="Персонал" />
+          </AssociationSet>
+          <EntitySet Name="ЭВМ" EntityType="crbModel.ЭВМ" />
           <AssociationSet Name="FK_Заявки_ЭВМ" Association="crbModel.FK_Заявки_ЭВМ">
             <End Role="ЭВМ" EntitySet="ЭВМ" />
             <End Role="Заявки" EntitySet="Заявки" />
           </AssociationSet>
+          <AssociationSet Name="FK_ЭВМ_Кабинет" Association="crbModel.FK_ЭВМ_Кабинет">
+            <End Role="Кабинет" EntitySet="Кабинет" />
+            <End Role="ЭВМ" EntitySet="ЭВМ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ЭВМ_Поставщик" Association="crbModel.FK_ЭВМ_Поставщик">
+            <End Role="Поставщик" EntitySet="Поставщик" />
+            <End Role="ЭВМ" EntitySet="ЭВМ" />
+          </AssociationSet>
           </EntityContainer>
-        <Association Name="FK_Персонал_ЭВМ">
-          <End Type="crbModel.ЭВМ" Role="ЭВМ" Multiplicity="0..1" />
-          <End Type="crbModel.Персонал" Role="Персонал" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ЭВМ">
-              <PropertyRef Name="Код" />
-            </Principal>
-            <Dependent Role="Персонал">
-              <PropertyRef Name="КодЭВМ" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <EntityType Name="Кабинет">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Персонал" Relationship="crbModel.FK_Персонал_Кабинет" FromRole="Кабинет" ToRole="Персонал" />
+          <NavigationProperty Name="ЭВМ" Relationship="crbModel.FK_ЭВМ_Кабинет" FromRole="Кабинет" ToRole="ЭВМ" />
+        </EntityType>
+        <EntityType Name="Поставщик">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ЭВМ" Relationship="crbModel.FK_ЭВМ_Поставщик" FromRole="Поставщик" ToRole="ЭВМ" />
+        </EntityType>
         <EntityType Name="Заявки">
           <Key>
             <PropertyRef Name="Код" />
@@ -201,6 +236,20 @@
           <NavigationProperty Name="Персонал" Relationship="crbModel.FK_Заявки_Персонал" FromRole="Заявки" ToRole="Персонал" />
           <NavigationProperty Name="ЭВМ" Relationship="crbModel.FK_Заявки_ЭВМ" FromRole="Заявки" ToRole="ЭВМ" />
         </EntityType>
+        <EntityType Name="Персонал">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="КодКабинета" Type="Int32" />
+          <Property Name="Фио" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ДатаРождения" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Адрес" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Телефон" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Заявки" Relationship="crbModel.FK_Заявки_Персонал" FromRole="Персонал" ToRole="Заявки" />
+          <NavigationProperty Name="Кабинет" Relationship="crbModel.FK_Персонал_Кабинет" FromRole="Персонал" ToRole="Кабинет" />
+        </EntityType>
         <Association Name="FK_Заявки_Персонал">
           <End Type="crbModel.Персонал" Role="Персонал" Multiplicity="0..1" />
           <End Type="crbModel.Заявки" Role="Заявки" Multiplicity="*" />
@@ -213,6 +262,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Персонал_Кабинет">
+          <End Type="crbModel.Кабинет" Role="Кабинет" Multiplicity="0..1" />
+          <End Type="crbModel.Персонал" Role="Персонал" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Кабинет">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="Персонал">
+              <PropertyRef Name="КодКабинета" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ЭВМ">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="КодПоставщика" Type="Int32" />
+          <Property Name="КодКабинета" Type="Int32" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Модель" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Процессор" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Монитор" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ОЗУ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ЖесткийДиск" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Графика" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="БлокПитания" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ремонт" Type="Boolean" />
+          <Property Name="Списан" Type="Boolean" />
+          <Property Name="ДатаСписания" Type="DateTime" Precision="3" />
+          <Property Name="Гарантия" Type="DateTime" Precision="3" />
+          <Property Name="ДатаНачала" Type="DateTime" Precision="3" />
+          <Property Name="Причина" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Заявки" Relationship="crbModel.FK_Заявки_ЭВМ" FromRole="ЭВМ" ToRole="Заявки" />
+          <NavigationProperty Name="Кабинет" Relationship="crbModel.FK_ЭВМ_Кабинет" FromRole="ЭВМ" ToRole="Кабинет" />
+          <NavigationProperty Name="Поставщик" Relationship="crbModel.FK_ЭВМ_Поставщик" FromRole="ЭВМ" ToRole="Поставщик" />
+        </EntityType>
         <Association Name="FK_Заявки_ЭВМ">
           <End Type="crbModel.ЭВМ" Role="ЭВМ" Multiplicity="0..1" />
           <End Type="crbModel.Заявки" Role="Заявки" Multiplicity="*" />
@@ -222,6 +308,30 @@
             </Principal>
             <Dependent Role="Заявки">
               <PropertyRef Name="КодЭВМ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ЭВМ_Кабинет">
+          <End Type="crbModel.Кабинет" Role="Кабинет" Multiplicity="0..1" />
+          <End Type="crbModel.ЭВМ" Role="ЭВМ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Кабинет">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="ЭВМ">
+              <PropertyRef Name="КодКабинета" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ЭВМ_Поставщик">
+          <End Type="crbModel.Поставщик" Role="Поставщик" Multiplicity="0..1" />
+          <End Type="crbModel.ЭВМ" Role="ЭВМ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Поставщик">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="ЭВМ">
+              <PropertyRef Name="КодПоставщика" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -242,34 +352,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Персонал">
-            <EntityTypeMapping TypeName="crbModel.Персонал">
-              <MappingFragment StoreEntitySet="Персонал">
-                <ScalarProperty Name="КодЭВМ" ColumnName="КодЭВМ" />
+          <EntitySetMapping Name="Кабинет">
+            <EntityTypeMapping TypeName="crbModel.Кабинет">
+              <MappingFragment StoreEntitySet="Кабинет">
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
                 <ScalarProperty Name="Код" ColumnName="Код" />
-                <ScalarProperty Name="Фио" ColumnName="Фио" />
-                <ScalarProperty Name="ДатаРождения" ColumnName="ДатаРождения" />
-                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
-                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
-                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ЭВМ">
-            <EntityTypeMapping TypeName="crbModel.ЭВМ">
-              <MappingFragment StoreEntitySet="ЭВМ">
+          <EntitySetMapping Name="Поставщик">
+            <EntityTypeMapping TypeName="crbModel.Поставщик">
+              <MappingFragment StoreEntitySet="Поставщик">
+                <ScalarProperty Name="Наименование" ColumnName="Наименование" />
                 <ScalarProperty Name="Код" ColumnName="Код" />
-                <ScalarProperty Name="Имя" ColumnName="Имя" />
-                <ScalarProperty Name="Модель" ColumnName="Модель" />
-                <ScalarProperty Name="Процессор" ColumnName="Процессор" />
-                <ScalarProperty Name="Монитор" ColumnName="Монитор" />
-                <ScalarProperty Name="ОЗУ" ColumnName="ОЗУ" />
-                <ScalarProperty Name="ЖесткийДиск" ColumnName="ЖесткийДиск" />
-                <ScalarProperty Name="Графика" ColumnName="Графика" />
-                <ScalarProperty Name="БлокПитания" ColumnName="БлокПитания" />
-                <ScalarProperty Name="Ремонт" ColumnName="Ремонт" />
-                <ScalarProperty Name="Списан" ColumnName="Списан" />
-                <ScalarProperty Name="ДатаСписания" ColumnName="ДатаСписания" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -282,6 +377,42 @@
                 <ScalarProperty Name="Дата" ColumnName="Дата" />
                 <ScalarProperty Name="КодЭВМ" ColumnName="КодЭВМ" />
                 <ScalarProperty Name="КодПерсонала" ColumnName="КодПерсонала" />
+                <ScalarProperty Name="Код" ColumnName="Код" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Персонал">
+            <EntityTypeMapping TypeName="crbModel.Персонал">
+              <MappingFragment StoreEntitySet="Персонал">
+                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="ДатаРождения" ColumnName="ДатаРождения" />
+                <ScalarProperty Name="Фио" ColumnName="Фио" />
+                <ScalarProperty Name="КодКабинета" ColumnName="КодКабинета" />
+                <ScalarProperty Name="Код" ColumnName="Код" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ЭВМ">
+            <EntityTypeMapping TypeName="crbModel.ЭВМ">
+              <MappingFragment StoreEntitySet="ЭВМ">
+                <ScalarProperty Name="Причина" ColumnName="Причина" />
+                <ScalarProperty Name="ДатаНачала" ColumnName="ДатаНачала" />
+                <ScalarProperty Name="Гарантия" ColumnName="Гарантия" />
+                <ScalarProperty Name="ДатаСписания" ColumnName="ДатаСписания" />
+                <ScalarProperty Name="Списан" ColumnName="Списан" />
+                <ScalarProperty Name="Ремонт" ColumnName="Ремонт" />
+                <ScalarProperty Name="БлокПитания" ColumnName="БлокПитания" />
+                <ScalarProperty Name="Графика" ColumnName="Графика" />
+                <ScalarProperty Name="ЖесткийДиск" ColumnName="ЖесткийДиск" />
+                <ScalarProperty Name="ОЗУ" ColumnName="ОЗУ" />
+                <ScalarProperty Name="Монитор" ColumnName="Монитор" />
+                <ScalarProperty Name="Процессор" ColumnName="Процессор" />
+                <ScalarProperty Name="Модель" ColumnName="Модель" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="КодКабинета" ColumnName="КодКабинета" />
+                <ScalarProperty Name="КодПоставщика" ColumnName="КодПоставщика" />
                 <ScalarProperty Name="Код" ColumnName="Код" />
               </MappingFragment>
             </EntityTypeMapping>

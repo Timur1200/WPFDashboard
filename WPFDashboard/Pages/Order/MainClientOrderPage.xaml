@@ -27,6 +27,7 @@
                     <DataGridTextColumn Header="Модель эвм" Binding="{Binding ЭВМ.Модель}" />
                     <DataGridTextColumn Header="Дата отправки" Binding="{Binding Дата}" />
                     <DataGridTextColumn Header="Статус" Binding="{Binding Status}" />
+                    <DataGridTextColumn Header="Гарантия" Binding="{Binding ЭВМ.Гарантия,StringFormat=d}" />
 
                 </DataGrid.Columns>
             </DataGrid>

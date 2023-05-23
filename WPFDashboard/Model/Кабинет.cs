@@ -12,24 +12,21 @@ namespace WPFDashboard.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Персонал
+    public partial class Кабинет
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Персонал()
+        public Кабинет()
         {
-            this.Заявки = new HashSet<Заявки>();
+            this.Персонал = new HashSet<Персонал>();
+            this.ЭВМ = new HashSet<ЭВМ>();
         }
     
         public int Код { get; set; }
-        public Nullable<int> КодКабинета { get; set; }
-        public string Фио { get; set; }
-        public string ДатаРождения { get; set; }
-        public string Адрес { get; set; }
-        public string Телефон { get; set; }
-        public string Пароль { get; set; }
+        public string Имя { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Заявки> Заявки { get; set; }
-        public virtual Кабинет Кабинет { get; set; }
+        public virtual ICollection<Персонал> Персонал { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ЭВМ> ЭВМ { get; set; }
     }
 }

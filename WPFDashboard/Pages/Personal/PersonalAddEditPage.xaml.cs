@@ -24,7 +24,9 @@ namespace WPFDashboard.Pages.Personal
         public PersonalAddEditPage(Персонал p)
         {
             InitializeComponent();
-            CBoxEvm.ItemsSource = crbEntities.GetContext().ЭВМ.Where(q=>q.Списан == false).Where(q=>q.Ремонт == false).ToList();
+            var items = crbEntities.GetContext().Кабинет.ToList();
+           
+            CBoxKab.ItemsSource = items;
             if (p == null )
             {
                 _personal = new Персонал();

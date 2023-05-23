@@ -18,6 +18,11 @@
             <StackPanel Orientation="Horizontal">
                 <Button Click="AddClick" Content="Создать" />
                 <Button Click="EditClick" Content="Изменить" />
+                <Button Click="AcrPriemaClick" Content="Акт приема" />
+                <StackPanel MinWidth="130" VerticalAlignment="Center">
+                    <TextBlock Text="Поиск:" />
+                    <TextBox Name="SearchTextBox" TextChanged="SearchTextBox_TextChanged" />
+                </StackPanel>
                 <!--<Button Width="auto" Click="DelClick" Content="Удалить"  />-->
 
             </StackPanel>
@@ -26,6 +31,8 @@
             <DataGrid AutoGenerateColumns="False" Name="DGrid" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Наименование" Binding="{Binding Имя}" />
+                    <DataGridTextColumn Header="Поставщик" Binding="{Binding Поставщик.Наименование}" />
+                    <DataGridTextColumn Header="Кабинет" Binding="{Binding Кабинет}" />
                     <DataGridTextColumn Header="Модель" Binding="{Binding Модель}" />
                     <DataGridTextColumn Header="ОЗУ" Binding="{Binding ОЗУ}" />
                     <DataGridTextColumn Header="Процессор" Binding="{Binding Процессор}" />

@@ -43,34 +43,49 @@ namespace WPFDashboard.Pages.Order
             _order.ДатаРемонта = DateTime.Now;
             _order.ЭВМ.Списан = btn1.IsChecked;
             _order.ЭВМ.Ремонт = false;
+            _order.ЭВМ.Причина = _order.Ремонт;
             crbEntities.GetContext().SaveChanges();
-            ToWord();
+            if (_order.ЭВМ.Списан.Value)
+            {
+                _order.ЭВМ.Причина = _order.Ремонт;
+                crbEntities.GetContext().SaveChanges();
+                // акт списания
+                WordService word = new WordService("Word/актСписания.docx");
+                for(int i = 0; i != 2; i++)
+                {
+                    word.ReplaceWordStub("(день)",_order.ДатаРемонта.Value.ToString("dd"));
+                    word.ReplaceWordStub("(месяц)", _order.ДатаРемонта.Value.ToString("MMMM"));
+                    word.ReplaceWordStub("(год)", _order.ДатаРемонта.Value.ToString("yyyy"));
+                }
+                word.ReplaceWordStub("(эвм)",$"{_order.ЭВМ.Name}") ;
+                word.ReplaceWordStub("(причина)", $"{_order.Ремонт}");
+                word.ReplaceWordStub("(код)", $"{_order.Код}");
+                word.ToWord();
+            }
+            else
+            {
+                // акт выполненых работ
+                WordService word = new WordService("Word/актРаботы.docx");
+                for (int i = 0; i != 2; i++)
+                {
+                    word.ReplaceWordStub("(день)", _order.ДатаРемонта.Value.ToString("dd"));
+                    word.ReplaceWordStub("(месяц)", _order.ДатаРемонта.Value.ToString("MMMM"));
+                    word.ReplaceWordStub("(год)", _order.ДатаРемонта.Value.ToString("yyyy"));
+                }
+                word.ReplaceWordStub("(деньЗ)", _order.Дата.Value.ToString("dd"));
+                word.ReplaceWordStub("(месяцЗ)", _order.Дата.Value.ToString("MMMM"));
+                word.ReplaceWordStub("(годЗ)", _order.Дата.Value.ToString("yyyy"));
+                word.ReplaceWordStub("(тип)", $"{_order.ЭВМ.Имя}");
+                word.ReplaceWordStub("(кодЭВМ)", $"{_order.ЭВМ.Код}");
+                word.ReplaceWordStub("(код)", $"{_order.Код}");
+                word.ReplaceWordStub("(ремонт)", $"{_order.Ремонт}");
+                word.ReplaceWordStub("(фио)", $"{_order.Персонал.Фио}");
+                word.ToWord();
+            }
             MessageBox.Show("Информация сохранена!");
             Nav.Back();
             
         }
-        private readonly string TemplateFileName = System.IO.Path.GetFullPath(@"Word/Word.docx");
-        void ReplaceWordStub(String stubToReplace, string text, Word.Document wordDocument)
-        {
-            var range = wordDocument.Content;
-            range.Find.ClearFormatting();
-            range.Find.Execute(FindText: stubToReplace, ReplaceWith: text);
-        }
-        private void ToWord()
-        {
-            var wordApp = new Word.Application();
-
-            wordApp.Visible = false;
-            var wordDocument = wordApp.Documents.Open(TemplateFileName);
-            ReplaceWordStub("(код)", $"{_order.Код}", wordDocument);
-            ReplaceWordStub("(эвм)", $"{_order.ЭВМ.Name}", wordDocument);
-            ReplaceWordStub("(дата1)", $"{_order.Дата}", wordDocument);
-            ReplaceWordStub("(дата2)", $"{_order.ДатаРемонта}", wordDocument);
-            ReplaceWordStub("(ремонт)", $"{_order.Ремонт}", wordDocument);
-
-            wordDocument.SaveAs2(System.IO.Path.GetFullPath($@"Word/{Guid.NewGuid()}.docx"));
-
-            wordApp.Visible = true;
-        }
+       
     }
 }

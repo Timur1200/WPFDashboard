@@ -26,6 +26,7 @@
             <DataGrid AutoGenerateColumns="False" Name="DGrid" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Врач" Binding="{Binding Персонал.Фио}" />
+                    <DataGridTextColumn Header="Кабинет" Binding="{Binding Персонал.Кабинет}" />
                     <DataGridTextColumn Header="ЭВМ" Binding="{Binding ЭВМ.Name}" />
                     <DataGridTextColumn Header="Дата отправки" Binding="{Binding Дата}" />
                    

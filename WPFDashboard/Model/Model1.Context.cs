@@ -26,8 +26,10 @@ namespace WPFDashboard.Model
         }
     
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<Кабинет> Кабинет { get; set; }
+        public virtual DbSet<Поставщик> Поставщик { get; set; }
+        public virtual DbSet<Заявки> Заявки { get; set; }
         public virtual DbSet<Персонал> Персонал { get; set; }
         public virtual DbSet<ЭВМ> ЭВМ { get; set; }
-        public virtual DbSet<Заявки> Заявки { get; set; }
     }
 }

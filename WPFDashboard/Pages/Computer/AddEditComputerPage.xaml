@@ -15,8 +15,15 @@
             <TextBlock Text="Модель" />
             <TextBox Text="{Binding Модель}"/>
 
+            <TextBlock Text="Кабинет" />
+            <ComboBox SelectedItem="{Binding Кабинет}" Name="KabinetComboBox" />
+            <TextBlock Text="Поставщик" />
+            <ComboBox SelectedItem="{Binding Поставщик}" Name="ProviderComboBox" DisplayMemberPath="Наименование" /> 
             <TextBlock Text="Процессор" />
             <TextBox Text="{Binding Процессор}"/>
+            <TextBlock Text="Гарантия" />
+            <DatePicker SelectedDate="{Binding Гарантия}" />
+           
             <TextBlock Text="Монитор" />
             <TextBox Text="{Binding Монитор}"/>
             <TextBlock Text="ОЗУ" />

@@ -13,6 +13,8 @@
             <StackPanel Name="Panel" HorizontalAlignment="Center" Width="400" VerticalAlignment="Center">
                 <TextBlock Text="Фио врача" />
                 <TextBox IsReadOnly="True" Text="{Binding Персонал.Фио}"/>
+                <TextBlock Text="Кабинет врача" />
+                <TextBox IsReadOnly="True" Text="{Binding Персонал.Кабинет.Код}"/>
                 <TextBlock Text="Описание проблемы" />
                 <TextBox IsReadOnly="True" Text="{Binding Описание}"/>
                 <TextBlock Text="ЭВМ" />

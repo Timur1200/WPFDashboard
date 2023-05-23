@@ -27,9 +27,10 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Телефон" Binding="{Binding Телефон}" />
                     <DataGridTextColumn Header="Фио" Binding="{Binding Фио}" />
-                    <DataGridTextColumn Header="ДатаРождения" Binding="{Binding ДатаРождения}" />
+                    <DataGridTextColumn Header="ДатаРождения" Binding="{Binding ДатаРождения, StringFormat=d}" />
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Адрес}" />
-                    <DataGridTextColumn Header="ЭВМ" Binding="{Binding ЭВМ.Name}" />
+                    <DataGridTextColumn Header="Кабинет" Binding="{Binding Кабинет}" />
+                    
 
                 </DataGrid.Columns>
             </DataGrid>

@@ -19,8 +19,8 @@
         <TextBox Text="{Binding Адрес}"/>
         <TextBlock Text="Дата рождения" />
         <DatePicker SelectedDate="{Binding ДатаРождения}" ></DatePicker>
-        <TextBlock Text="ЭВМ" />
-        <ComboBox SelectedItem="{Binding ЭВМ}" DisplayMemberPath="Name" Name="CBoxEvm" />
+        <TextBlock Text="Кабинет" />
+        <ComboBox SelectedItem="{Binding Кабинет}"  Name="CBoxKab" />
 
         <Button Click="SaveClick" Content="Сохранить" />
 
