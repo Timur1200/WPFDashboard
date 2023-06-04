@@ -31,7 +31,7 @@ namespace WPFDashboard
             Nav.pers = _pers;
             if (p == null)
             {
-                string fio = "Гучиков Альберт Камилевич";
+                string fio = "Глеб Терентьев";
                 AdminPanel.Visibility = Visibility.Visible;
                 UserPanel.Visibility = Visibility.Collapsed;
                 FioTextBlock.Text = fio;

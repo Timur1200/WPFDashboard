@@ -83,7 +83,7 @@ namespace WPFDashboard.Pages.Order
                 word.ReplaceWordStub("(код)", $"{_order.Код}");
                 word.ReplaceWordStub("(ремонт)", $"{_order.Ремонт}");
                 word.ReplaceWordStub("(фио)", $"{_order.Персонал.Фио}");
-                word.ReplaceWordStub("(инженер)", $"Гучиков Альберт Камилевич");
+                word.ReplaceWordStub("(инженер)", $"Глеб Терентьев");
                 word.ToWord();
             }
             MessageBox.Show("Информация сохранена!");
