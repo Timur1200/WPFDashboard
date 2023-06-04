@@ -52,6 +52,7 @@ namespace WPFDashboard.Pages.Computer
             ЭВМ evm = DGrid.SelectedItem as ЭВМ;
             WordService word = new WordService("Word/актПриема.docx");
             word.ReplaceWordStub("(код)", $"{evm.Код}");
+            word.ReplaceWordStub("(номер)", $"{evm.Кабинет.Код}");
             word.ReplaceWordStub("(день)", $"{evm.ДатаНачала.Value.ToString("dd")}");
             word.ReplaceWordStub("(месяц)", $"{evm.ДатаНачала.Value.ToString("MM")}");
             word.ReplaceWordStub("(год)", $"{evm.ДатаНачала.Value.ToString("yyyy")}");

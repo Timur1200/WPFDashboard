@@ -45,7 +45,7 @@
         </Grid>
 
         <Grid Grid.Row="2" Background="#28AEED">
-
+            <TextBlock x:Name="FioTextBlock" />
         </Grid>
     </Grid>
 </Window>

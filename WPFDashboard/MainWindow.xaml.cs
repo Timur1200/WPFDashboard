@@ -31,13 +31,16 @@ namespace WPFDashboard
             Nav.pers = _pers;
             if (p == null)
             {
+                string fio = "Гучиков Альберт Камилевич";
                 AdminPanel.Visibility = Visibility.Visible;
                 UserPanel.Visibility = Visibility.Collapsed;
+                FioTextBlock.Text = fio;
             }
             else
             {
                 AdminPanel.Visibility = Visibility.Collapsed;
                 UserPanel.Visibility = Visibility.Visible;
+                FioTextBlock.Text = $"{p.Фио}";
             }
             Nav.frame = MainFrame;
         }

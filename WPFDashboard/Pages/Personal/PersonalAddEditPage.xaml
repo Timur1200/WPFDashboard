@@ -11,7 +11,7 @@
     <StackPanel HorizontalAlignment="Center" Width="400" VerticalAlignment="Center">
         <TextBlock Text="ФИО" />
         <TextBox Text="{Binding Фио}" />
-        <TextBlock Text="Телефон" />
+        <TextBlock Text="Логин" />
         <TextBox Text="{Binding Телефон}" />
         <TextBlock Text="Пароль" />
         <TextBox Text="{Binding Пароль}"/>

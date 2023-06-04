@@ -24,6 +24,7 @@ namespace WPFDashboard.Pages.Computer
         public AddEditComputerPage(ЭВМ e)
         {
             InitializeComponent();
+            DatePicker1.DisplayDateStart = DateTime.Today;
             KabinetComboBox.ItemsSource = crbEntities.GetContext().Кабинет.ToList();
             ProviderComboBox.ItemsSource = crbEntities.GetContext().Поставщик.ToList();
             if (e == null)

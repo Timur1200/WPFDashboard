@@ -22,7 +22,7 @@
             <TextBlock Text="Процессор" />
             <TextBox Text="{Binding Процессор}"/>
             <TextBlock Text="Гарантия" />
-            <DatePicker SelectedDate="{Binding Гарантия}" />
+            <DatePicker Name="DatePicker1" SelectedDate="{Binding Гарантия}" />
            
             <TextBlock Text="Монитор" />
             <TextBox Text="{Binding Монитор}"/>
